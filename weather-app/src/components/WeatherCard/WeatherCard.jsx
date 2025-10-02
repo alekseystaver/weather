@@ -12,6 +12,8 @@ const WeatherCard = ({
   windSpeed,
   pressure
 }) => {
+  const pressureAtm = pressure ? (pressure / 1013.25).toFixed(2) : null;
+  const windSpeedMS = windSpeed ? (windSpeed / 3.6).toFixed(2) : null;
   return (
     <div className={styles.container}>
       <div className={styles.weatherCard}>
@@ -42,11 +44,11 @@ const WeatherCard = ({
           <div className={styles.detailRow}>
             <div className={styles.detailItem}>
               <span className={styles.detailLabel}>Ветер </span>
-              <span className={styles.detailValue}>{windSpeed} м/с</span>
+              <span className={styles.detailValue}>{windSpeedMS} м/с</span>
             </div>
             <div className={styles.detailItem}>
               <span className={styles.detailLabel}>Давление </span>
-              <span className={styles.detailValue}>{pressure} hPa</span>
+              <span className={styles.detailValue}>{pressureAtm}  атм</span>
             </div>
           </div>
         </div>

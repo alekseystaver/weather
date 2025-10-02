@@ -4,6 +4,7 @@ import SearchBar from './components/SearchBar/SearchBar';
 import WeatherCard from './components/WeatherCard/WeatherCard';
 import Loading from './components/Loading/Loading';
 import Error from './components/Error/Error.jsx';
+import Forecast from './components/Forecast/Forecast.jsx';
 import useWeather from './hooks/useWeather.jsx';
 
 // const API_KEY = '7c8d74dd12eacced5a7f2232a83a8f76';
@@ -12,7 +13,7 @@ import useWeather from './hooks/useWeather.jsx';
 const App = () => {
   const [city, setCity] = useState('Минск');
   const [showLoadingMessage, setShowLoadingMessage] = useState(false);
-  const {weatherData, loading, error, fetchWeather, setError} = useWeather();
+  const {weatherData, forecastData, loading, error, fetchWeather, setError} = useWeather();
 
   useEffect(() => {
     const loadMinskWeather = async () => {
@@ -53,7 +54,8 @@ const App = () => {
           <Loading message={'Загружаем данные о погоде'}/>
         )}
 
-        {!loading && weatherData && (
+        {!error && !loading && weatherData && (
+          <div>
           <WeatherCard
             city={weatherData.name}
             country={weatherData.sys.country}
@@ -65,6 +67,11 @@ const App = () => {
             windSpeed={weatherData.wind.speed}
             pressure={weatherData.main.pressure}
           />
+
+          {forecastData && (
+              <Forecast forecastData={forecastData} />
+            )}
+          </div>
         )}
 
         {error && (

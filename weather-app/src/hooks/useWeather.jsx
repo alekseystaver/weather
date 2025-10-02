@@ -1,9 +1,12 @@
 import { useCallback, useState } from 'react'
 const API_KEY = '7c8d74dd12eacced5a7f2232a83a8f76';
 const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const FORECAST_URL = 'https://api.openweathermap.org/data/2.5/forecast'
+
 const useWeather = () => {
     const [loading, setLoading] = useState(false);
     const [weatherData, setWeatherData] = useState(null);
+    const [forecastData, setForecastData] = useState(null);
     const [error, setError] = useState('');
 
     const fetchWeather = useCallback(async (city) => {
@@ -30,7 +33,19 @@ const useWeather = () => {
         
         const data = await response.json();
         console.log('Данные Минска получены:', data);
-        
+
+        const forecastUrl = `${FORECAST_URL}?q=${city}&appid=${API_KEY}&units=metric&lang=ru`;
+        const forecastResponse = await fetch(forecastUrl);
+
+        if (!forecastResponse.ok) {
+          if (forecastResponse.status === 401) {
+            throw new Error('API ключ не активирован. Подожди 2-3 часа после регистрации.');
+          }
+          throw new Error(`Не удалось загрузить погоду ${city}`);
+        }
+        const forecastData = await forecastResponse.json();
+
+        setForecastData(forecastData);
         setWeatherData(data);
         setError('');
         
@@ -43,6 +58,7 @@ const useWeather = () => {
     }, [])
   return {
     weatherData,
+    forecastData,
     loading,
     error,
     fetchWeather,
