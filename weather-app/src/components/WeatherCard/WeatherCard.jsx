@@ -1,7 +1,17 @@
 import React from 'react';
 import styles from './WeatherCard.module.css';
 
-const WeatherCard = ({ city, country, temperature, description, weatherIcon }) => {
+const WeatherCard = ({ 
+  city, 
+  country, 
+  temperature, 
+  description, 
+  weatherIcon, 
+  feelsLike, 
+  humidity, 
+  windSpeed,
+  pressure
+}) => {
   return (
     <div className={styles.container}>
       <div className={styles.weatherCard}>
@@ -15,8 +25,31 @@ const WeatherCard = ({ city, country, temperature, description, weatherIcon }) =
               className={styles.weatherIcon}
             />
           )}
+        <p className={styles.description}>{description}</p>
         </div>
-        <p>{description}</p>
+
+        <div className={styles.weatherDetails}>
+          <div className={styles.detailRow}>
+            <div className={styles.detailItem}>
+              <span className={styles.detailLabel}>Ощущается как </span>
+              <span className={styles.detailValue}>{feelsLike}°C</span>            
+            </div>
+            <div className={styles.detailItem}>
+              <span className={styles.detailLabel}>Влажность </span>
+              <span className={styles.detailValue}>{humidity}%</span>
+            </div>
+          </div>
+          <div className={styles.detailRow}>
+            <div className={styles.detailItem}>
+              <span className={styles.detailLabel}>Ветер </span>
+              <span className={styles.detailValue}>{windSpeed} м/с</span>
+            </div>
+            <div className={styles.detailItem}>
+              <span className={styles.detailLabel}>Давление </span>
+              <span className={styles.detailValue}>{pressure} hPa</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

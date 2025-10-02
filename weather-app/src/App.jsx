@@ -60,6 +60,10 @@ const App = () => {
             temperature={Math.round(weatherData.main.temp)}
             description={weatherData.weather[0].description}
             weatherIcon={weatherData.weather[0].icon}
+            feelsLike={Math.round(weatherData.main.feels_like)}
+            humidity={weatherData.main.humidity}
+            windSpeed={weatherData.wind.speed}
+            pressure={weatherData.main.pressure}
           />
         )}
 
