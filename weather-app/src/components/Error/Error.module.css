@@ -1,0 +1,46 @@
+.error {
+  background: #ff6b6b;
+  max-width: 460px;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  text-align: center;
+  animation: slideDown 0.3s ease;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.errorMessage {
+  margin-bottom: 15px;
+  width: 100%; /* Чтобы текст занимал всю ширину */
+}
+
+.retryButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retryButton:hover {
+  background: white;
+  color: #ff6b6b;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
