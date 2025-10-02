@@ -3,9 +3,8 @@ import styles from './Loading.module.css'
 
 const Loading = ({message}) => {
   return (
-    <div>
-    <div className={styles.loading}></div>
-      {message}
+    <div className={styles.loading}>
+        {message}
     </div>
   )
 }
