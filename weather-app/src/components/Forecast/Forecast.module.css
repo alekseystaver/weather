@@ -7,6 +7,7 @@
     border-radius: 20px;
     color: #2d3436;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    animation: slideUp 0.5s ease;
 }
 
 .forecast h3 {
@@ -28,10 +29,11 @@
     .forecastItem {
     text-align: center;
     padding: 15px;
-    background: rgba(116, 185, 255, 0.1);
+    background: rgba(0, 0, 0, 0.151);
     border-radius: 15px;
     transition: all 0.3s ease;
     border: 1px solid rgba(116, 185, 255, 0.2);
+    cursor: pointer;
     }
 
     .forecastItem:hover {
@@ -76,3 +78,13 @@
     color: #636e72;
     text-transform: capitalize;
     }
+    @keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

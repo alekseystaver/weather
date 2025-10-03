@@ -1,0 +1,215 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 2rem;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modalContent {
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+}
+
+.hourlyForecast {
+    margin-top: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 2rem;
+    padding: 2rem;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hourlyForecast h3 {
+    margin: 0 0 1.5rem 0;
+    color: #2d3748;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hourlyList {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 transparent;
+}
+
+.hourlyList::-webkit-scrollbar {
+    height: 6px;
+}
+
+.hourlyList::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 3px;
+}
+
+.hourlyList::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+}
+
+.hourlyList::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+}
+
+.hourlyItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border-radius: 1.2rem;
+    min-width: 9rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.hourlyItem:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+}
+
+.hourlyTime {
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.hourlyIcon {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-bottom: 0.8rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.hourlyTemp {
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .modalOverlay {
+        padding: 1rem;
+    }
+    
+    .modalContent {
+        max-width: 95%;
+    }
+    
+    .closeButton {
+        top: -3.5rem;
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 2rem;
+    }
+    
+    .hourlyForecast {
+        margin-top: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+    }
+    
+    .hourlyForecast h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+    
+    .hourlyList {
+        gap: 0.8rem;
+    }
+    
+    .hourlyItem {
+        min-width: 8rem;
+        padding: 1.2rem 0.8rem;
+        border-radius: 1rem;
+    }
+    
+    .hourlyIcon {
+        width: 4rem;
+        height: 4rem;
+    }
+    
+    .hourlyTemp {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .modalOverlay {
+        padding: 0.5rem;
+    }
+    
+    .modalContent {
+        max-width: 100%;
+    }
+    
+    .hourlyList {
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow-x: visible;
+    }
+    
+    .hourlyItem {
+        min-width: calc(33.333% - 0.8rem);
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+    .hourlyForecast {
+        background: rgba(45, 55, 72, 0.95);
+        border: 1px solid rgba(74, 85, 104, 0.3);
+    }
+    
+    .hourlyForecast h3 {
+        color: #f7fafc;
+    }
+    
+    .hourlyItem {
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+        border: 1px solid rgba(74, 85, 104, 0.5);
+    }
+    
+    .hourlyItem:hover {
+        background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    }
+    
+    .hourlyTime {
+        color: #e2e8f0;
+    }
+    
+    .hourlyTemp {
+        color: #f7fafc;
+    }
+}

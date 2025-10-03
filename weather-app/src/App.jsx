@@ -5,7 +5,7 @@ import WeatherCard from './components/WeatherCard/WeatherCard';
 import Loading from './components/Loading/Loading';
 import Error from './components/Error/Error.jsx';
 import Forecast from './components/Forecast/Forecast.jsx';
-import useWeather from './hooks/useWeather.jsx';
+import useWeather from './hooks/useWeather.js';
 
 // const API_KEY = '7c8d74dd12eacced5a7f2232a83a8f76';
 // const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
