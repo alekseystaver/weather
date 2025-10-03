@@ -19,6 +19,14 @@ const useForecastModal = () => {
         return forecastData.list.filter((item, index) => index % 8 === 0).slice(0, 5);
     };
 
+    const getToday = (day) => {
+        if (!day) return false;
+        const date = new Date(day.dt * 1000);
+        const today = new Date();
+        
+        return date.toDateString() === today.toDateString();
+    };
+
     const getDayName = (day) => {
         if (!day) return '';
         const date = new Date(day.dt * 1000);
@@ -65,6 +73,7 @@ const useForecastModal = () => {
             minute: '2-digit'
         });
     };
+
     return {
         selectDay,
         isModalOpen,
@@ -74,7 +83,8 @@ const useForecastModal = () => {
         getDayForecasts,
         getDayName,
         getFullDayName,
-        formatTime
+        formatTime,
+        getToday
     };
 };
 

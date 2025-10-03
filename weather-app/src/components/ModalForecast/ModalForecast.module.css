@@ -21,6 +21,36 @@
     animation: slideUp 0.3s ease-out;
 }
 
+.closeButton {
+    position: absolute;
+    top: -4rem;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    font-size: 2.4rem;
+    cursor: pointer;
+    color: white;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.closeButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.closeButton:active {
+    transform: scale(0.95);
+}
+
 .hourlyForecast {
     margin-top: 2rem;
     background: rgba(255, 255, 255, 0.95);
@@ -31,6 +61,14 @@
         0 20px 40px rgba(0, 0, 0, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hourlyForecast h2 {
+    margin: 0 0 1rem 0;
+    color: #2d3748;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 
 .hourlyForecast h3 {
@@ -72,6 +110,7 @@
 
 .hourlyItem {
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     padding: 1.5rem 1rem;
@@ -116,6 +155,74 @@
     text-align: center;
 }
 
+/* Стили для прошедших часов (только для сегодня) */
+.hourlyItem.past {
+    opacity: 0.6;
+    filter: grayscale(0.3);
+}
+
+.hourlyItem.past .hourlyTime,
+.hourlyItem.past .hourlyTemp {
+    color: #718096;
+}
+
+.pastOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 1.2rem;
+    pointer-events: none;
+}
+
+/* Стили для текущего часа (только для сегодня) */
+.hourlyItem.current {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: 2px solid #667eea;
+    position: relative;
+    transform: scale(1.05);
+    z-index: 2;
+}
+
+.hourlyItem.current .hourlyTime,
+.hourlyItem.current .hourlyTemp {
+    color: white;
+}
+
+.nowBadge {
+    display: block;
+    background: #48bb78;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 0.3rem;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(3rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .modalOverlay {
@@ -137,6 +244,10 @@
         margin-top: 1.5rem;
         padding: 1.5rem;
         border-radius: 1.5rem;
+    }
+    
+    .hourlyForecast h2 {
+        font-size: 1.5rem;
     }
     
     .hourlyForecast h3 {
@@ -185,13 +296,13 @@
     }
 }
 
-/* Темная тема */
 @media (prefers-color-scheme: dark) {
     .hourlyForecast {
         background: rgba(45, 55, 72, 0.95);
         border: 1px solid rgba(74, 85, 104, 0.3);
     }
     
+    .hourlyForecast h2,
     .hourlyForecast h3 {
         color: #f7fafc;
     }
