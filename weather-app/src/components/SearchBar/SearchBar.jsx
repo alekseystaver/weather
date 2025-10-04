@@ -1,83 +1,92 @@
 import React, { useEffect, useState, useRef } from 'react';
 import SearchHistory from '../SearchHistory/SearchHistory';
+import Loading from '../Loading/Loading';
+import Error from '../Error/Error';
+import useAutocomplete from '../../hooks/useAutocomplete';
 import styles from './SearchBar.module.css';
 
 const SearchBar = ({ city, setCity, onSearch, loading }) => {
-  const [showHistory, setShowHistory] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [history, setHistory] = useState([]);
   const containerRef = useRef(null);
 
+  // Автозаполнение
+  const { suggestions, loading: autoLoading, error } = useAutocomplete(city);
+
+  // Загружаем историю из localStorage при запуске
   useEffect(() => {
-    const savedHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-    setHistory(savedHistory);
+    const saved = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    setHistory(saved);
   }, []);
 
+  // Добавление города в историю
   const addToHistory = (newCity) => {
-    if (!newCity.trim()) return;
-    const updatedHistory = [
+    if (typeof newCity !== 'string' || !newCity.trim()) return;
+    const updated = [
       newCity,
-      ...history.filter(c => c.toLowerCase() !== newCity.toLowerCase())
+      ...history.filter((c) => c.toLowerCase() !== newCity.toLowerCase()),
     ].slice(0, 5);
-    setHistory(updatedHistory);
-    localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
+    setHistory(updated);
+    localStorage.setItem('searchHistory', JSON.stringify(updated));
   };
 
+  // Поиск
   const handleSearch = (e) => {
     e.preventDefault();
-    const trimmeCity = city.trim()
-    if (!trimmeCity) return;
-    onSearch(trimmeCity);
-    addToHistory(trimmeCity);
-    setShowHistory(false);
-  };
-  const handleSelectHistory = (item) => {
-    setCity(item); 
-    onSearch(item);
-    setShowHistory(false);
+    const trimmed = city.trim();
+    if (!trimmed) return;
+    onSearch(trimmed);
+    addToHistory(trimmed);
+    setShowDropdown(false);
   };
 
+  // Выбор города из истории или подсказок
+  const handleSelect = (selectedCity) => {
+    const name = typeof selectedCity === 'string' ? selectedCity : selectedCity.name;
+    setCity(name);
+    onSearch(name);
+    addToHistory(name);
+    setShowDropdown(false);
+  };
+
+  // Закрываем список при клике вне
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setShowHistory(false);
+        setShowDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Закрываем при скролле
+  useEffect(() => {
+    const handleScroll = () => setShowDropdown(false);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Очистка истории
   const clearHistory = () => {
     localStorage.removeItem('searchHistory');
     setHistory([]);
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowHistory(false); 
-    };
-
-    window.addEventListener('scroll', handleScroll);
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div ref={containerRef}>
-      <form className={styles.searchContainer}>
+      <form className={styles.searchContainer} onSubmit={handleSearch}>
         <input
           type="text"
           value={city}
-          onKeyPress={(e) => {
-            if (e.key === 'Enter') handleSearch(e);
-          }}
-          onChange={(e) => setCity(e.target.value.trim())}
+          onChange={(e) => setCity(e.target.value)}
           placeholder="Введите город..."
           className={styles.searchInput}
           disabled={loading}
-          onFocus={() => setShowHistory(true)}
+          onFocus={() => setShowDropdown(true)}
         />
         <button
-          onClick={handleSearch}
+          type="submit"
           className={styles.searchButton}
           disabled={loading || !city.trim()}
         >
@@ -85,12 +94,53 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
         </button>
       </form>
 
-      {showHistory && (
-        <SearchHistory
-          history={history}
-          onSelect={handleSelectHistory}
-          clearHistory={clearHistory}
-        />
+      {showDropdown && (
+        <div style={{ position: 'relative', maxWidth: '1000px', margin: '0 auto' }}>
+          {city.trim() ? (
+            <>
+              {autoLoading && <Loading message="Загружаем подсказки..." />}
+              {error && (
+                <Error
+                  message={error}
+                  onRetry={() => setCity(city)}
+                />
+              )}
+              {!autoLoading && !error && suggestions.length > 0 && (
+                <ul
+                  style={{
+                    listStyle: 'none',
+                    background: '#fff',
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                    padding: 0,
+                    marginTop: '8px',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {suggestions.map((s, i) => (
+                    <li
+                      key={i}
+                      onClick={() => handleSelect(s)}
+                      style={{
+                        padding: '10px 15px',
+                        cursor: 'pointer',
+                        borderBottom: '1px solid rgba(0,0,0,0.05)',
+                      }}
+                    >
+                      {s.name}, {s.country}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          ) : (
+            <SearchHistory
+              history={history}
+              onSelect={handleSelect}
+              clearHistory={clearHistory}
+            />
+          )}
+        </div>
       )}
     </div>
   );
