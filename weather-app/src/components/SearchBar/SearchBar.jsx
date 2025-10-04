@@ -51,6 +51,16 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
     setHistory([]);
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowHistory(false); 
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div ref={containerRef}>
       <form className={styles.searchContainer}>

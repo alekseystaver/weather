@@ -1,31 +1,28 @@
 .historyContainer {
   position: fixed;
-
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 1000px;
   width: 100%;
-  margin-top: 8px;
-  z-index: 9999;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
 }
 
 .historyList {
   list-style: none;
   padding: 0;
-  margin: 0;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 10px;
   width: 100%;
   max-height: 180px;
   overflow-y: auto;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   animation: fadeIn 0.3s ease-out;
-  z-index: 10;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .historyItem {
@@ -51,8 +48,8 @@
   padding: 8px 16px;
   font-size: 0.9rem;
   border: none;
-  background: #ff6f61;
-  color: white;
+  background: rgba(116, 185, 255, 0.15);
+  color: rgb(0, 0, 0);
   text-align: center;
   border-radius: 8px;
   cursor: pointer;
@@ -61,7 +58,7 @@
 }
 
 .clearButton:hover {
-  background: #e55b49;
+  background: rgba(116, 186, 255, 0.603);
 }
 
 @keyframes fadeIn {
