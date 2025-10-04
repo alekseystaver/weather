@@ -10,10 +10,10 @@ import useWeather from './hooks/useWeather.js';
 // const API_KEY = '7c8d74dd12eacced5a7f2232a83a8f76';
 // const API_URL = 'https://api.openweathermap.org/data/2.5/weather';
 const backgroundMap = {
-  '01d': 'https://images.pexels.com/photos/296234/pexels-photo-296234.jpeg', // Солнечно день
+  '01d': 'https://media.istockphoto.com/id/824800468/ru/%D1%84%D0%BE%D1%82%D0%BE/%D1%81%D0%BE%D0%BB%D0%BD%D1%86%D0%B5-%D0%BD%D0%B0-%D0%B3%D0%BE%D0%BB%D1%83%D0%B1%D0%BE%D0%BC-%D0%BD%D0%B5%D0%B1%D0%B5-%D1%81-%D0%BE%D0%B1%D0%BB%D0%B0%D0%BA%D0%B0%D0%BC%D0%B8.jpg?s=612x612&w=0&k=20&c=2cTACh_EJnbwN75WEGTkelym5vmxUQYfFAJ9AY6vdX8=', // Солнечно день
   '01n': 'https://stihi.ru/pics/2012/11/03/526.jpg', // Солнечно ночь
   '02d': 'https://images.pexels.com/photos/296234/pexels-photo-296234.jpeg', //небольшая облачность 
-  '03d': 'https://images.unsplash.com/photo-1516914943479-89db7d9ae7f2?w=1200', // Облачно
+  '03d': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp-Ts3Xkpv1BLcbngtPxP9gwIsOX_EqQXViw&s', // Облачно
   '04d': 'https://media.istockphoto.com/id/1503488794/ru/%D1%84%D0%BE%D1%82%D0%BE/%D0%BF%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0-%D0%BA%D1%80%D0%B0%D1%81%D0%B8%D0%B2%D1%8B%D1%85-%D0%BE%D0%B1%D0%BB%D0%B0%D0%BA%D0%BE%D0%B2-%D1%84%D0%BE%D0%BD-%D1%81%D0%B5%D1%80%D0%BE%D0%B3%D0%BE-%D0%BD%D0%B5%D0%B1%D0%B0-%D0%B8-%D0%BE%D0%B1%D0%BB%D0%B0%D0%BA%D0%BE%D0%B2.jpg?s=612x612&w=0&k=20&c=8WnEY_fiAe5-Owqx0XUxR2SQ3npfrRcPwuyx9YDHl0s=', // Пасмурно
   '09d': 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=1200', // Дождь 
   '10d': 'https://images.unsplash.com/photo-1519692933481-e162a57d6721?w=1200', // Ливень 
