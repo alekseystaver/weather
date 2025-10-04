@@ -19,20 +19,28 @@ export default function useOWMAutocomplete(query, limit = 5) {
       setError(null);
       try {
         const res = await fetch(
-          `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=${limit}&appid=${API_KEY}`
+          `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(query)}&limit=${limit}&appid=${API_KEY}&lang=ru`
         );
+
         if (!res.ok) throw new Error('Ошибка сети');
         const data = await res.json();
         if (!cancelled) {
-          // Преобразуем для автозаполнения
-          const list = data.map(item => ({
-            name: item.name,
-            country: item.country,
-            lat: item.lat,
-            lon: item.lon,
-          }));
-          setSuggestions(list);
-        }
+  const uniqueList = [];
+  const seen = new Set();
+  data.forEach(item => {
+    const key = `${item.name.toLowerCase()}_${item.country}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      uniqueList.push({
+        name: item.name,
+        country: item.country,
+        lat: item.lat,
+        lon: item.lon,
+      });
+    }
+  });
+setSuggestions(uniqueList.length > 0 ? [uniqueList[0]] : []);
+}
       } catch (err) {
         if (!cancelled) setError(err.message);
       } finally {
@@ -40,12 +48,13 @@ export default function useOWMAutocomplete(query, limit = 5) {
       }
     };
 
-    const timeout = setTimeout(fetchData, 400); // debounce
+    const timeout = setTimeout(fetchData, 100); 
     return () => {
       cancelled = true;
       clearTimeout(timeout);
     };
   }, [query, limit]);
+  
 
   return { suggestions, loading, error };
 }

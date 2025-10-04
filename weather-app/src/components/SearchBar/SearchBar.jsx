@@ -10,16 +10,13 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
   const [history, setHistory] = useState([]);
   const containerRef = useRef(null);
 
-  // Автозаполнение
   const { suggestions, loading: autoLoading, error } = useAutocomplete(city);
 
-  // Загружаем историю из localStorage при запуске
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('searchHistory')) || [];
     setHistory(saved);
   }, []);
 
-  // Добавление города в историю
   const addToHistory = (newCity) => {
     if (typeof newCity !== 'string' || !newCity.trim()) return;
     const updated = [
@@ -30,7 +27,6 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
     localStorage.setItem('searchHistory', JSON.stringify(updated));
   };
 
-  // Поиск
   const handleSearch = (e) => {
     e.preventDefault();
     const trimmed = city.trim();
@@ -40,7 +36,6 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
     setShowDropdown(false);
   };
 
-  // Выбор города из истории или подсказок
   const handleSelect = (selectedCity) => {
     const name = typeof selectedCity === 'string' ? selectedCity : selectedCity.name;
     setCity(name);
@@ -49,7 +44,6 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
     setShowDropdown(false);
   };
 
-  // Закрываем список при клике вне
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (containerRef.current && !containerRef.current.contains(e.target)) {
@@ -60,18 +54,17 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Закрываем при скролле
   useEffect(() => {
     const handleScroll = () => setShowDropdown(false);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Очистка истории
   const clearHistory = () => {
     localStorage.removeItem('searchHistory');
     setHistory([]);
   };
+  
 
   return (
     <div ref={containerRef}>
@@ -79,7 +72,7 @@ const SearchBar = ({ city, setCity, onSearch, loading }) => {
         <input
           type="text"
           value={city}
-          onChange={(e) => setCity(e.target.value)}
+          onChange={(e) => setCity(e.target.value.trim())}
           placeholder="Введите город..."
           className={styles.searchInput}
           disabled={loading}
